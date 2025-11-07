@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Idade</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            color: #3e5d5f;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+
+        button {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        #resultado {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f9fa;
+            font-size: 20px;
+            color: #2c3e50;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #3498db;
+        }
+
+        .age-number {
+            font-size: 36px;
+            font-weight: 700;
+            color: #3498db;
+            margin: 0 5px;
+        }
+
+        .error {
+            color: #e74c3c;
+            background-color: #fadbd8;
+            border-color: #e74c3c;
+        }
+
+        .decoration {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .circle {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #3498db;
+            opacity: 0.6;
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Cálculo de Idade</h1>
+        <p class="subtitle">Descubra quantos anos você possui com nossa ferramenta de cálculo de Idade!</p>
+
+        <div class="input-group">
+            <label for="anoNascimento">Ano de Nascimento:</label>
+            <input type="number" id="anoNascimento" placeholder="Exemplo: 1990" min="1900" max="2025">
+        </div>
+
+        <button onclick="calcularIdade()">Calcular Minha Idade</button>
+
+        <div id="resultado">
+            <p>Informe seu ano de nascimento para calcular sua idade</p>
+        </div>
+
+        <div class="decoration">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+
+        <div class="footer">
+            <p>© Cálculo de Idade feito por Nicolly</p>
+        </div>
+    </div>
+
+    <script>
+        function calcularIdade() {
+            
+            // Obter o ano de nascimento da pessoa que vai utilizar o programa
+            const anoNascimento = parseInt(document.getElementById('anoNascimento').value);
+            const resultado = document.getElementById('resultado');
+
+            // Obter o ano atual que é 2025
+            const anoAtual = new Date().getFullYear();
+
+            // Para validar o ano de nascimento
+            if (isNaN(anoNascimento) || anoNascimento < 1900 || anoNascimento > anoAtual) {
+                resultado.innerHTML = "<p class='error'>Por favor, insira um ano de nascimento válido (entre 1900 e " + anoAtual + ").</p>";
+                resultado.classList.add('error');
+                return;
+            }
+
+            // Remove a classe de erro
+            resultado.classList.remove('error');
+
+            // Calcula a idade
+            const idade = anoAtual - anoNascimento;
+
+            // Exibe o resultado
+            resultado.innerHTML = `
+                <p>Você tem <span class="age-number">${idade}</span> anos de idade!</p>
+            `;
+        }
+    </script>
+</body>
+
+</html>
